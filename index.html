@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b22">
+  <title>رفيق القرآن | رحلتك مع القرآن</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #0b1914;
+      color: #f5f1e7;
+    }
+    header {
+      padding: 25px 20px;
+      background: #102b22;
+      border-bottom: 1px solid #b99a55;
+      text-align: center;
+    }
+    header h1 {
+      color: #d8bb76;
+      margin: 5px;
+      font-size: 30px;
+    }
+    header p { color: #c7c5b8; }
+    main {
+      width: min(100% - 30px, 650px);
+      margin: 25px auto;
+    }
+    .welcome {
+      text-align: center;
+      padding: 20px 5px;
+    }
+    .welcome h2 { color: #d8bb76; }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .card {
+      background: #172c23;
+      border: 1px solid #34513e;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+    .number {
+      color: #e3c77e;
+      font-size: 27px;
+      font-weight: bold;
+    }
+    .menu {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .menu button {
+      width: 100%;
+      padding: 18px;
+      border-radius: 13px;
+      border: 1px solid #8f7949;
+      background: #1c382b;
+      color: #f5f1e7;
+      font-size: 17px;
+      text-align: right;
+      cursor: pointer;
+    }
+    .menu button:active { background: #294b38; }
+    .note {
+      color: #c7c5b8;
+      font-size: 13px;
+      line-height: 1.8;
+      text-align: center;
+      margin-top: 25px;
+    }
+    footer {
+      text-align: center;
+      color: #b99a55;
+      padding: 25px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>☪ رفيق القرآن</h1>
+    <p>رحلتك اليومية مع القرآن الكريم</p>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <h2>السلام عليكم ورحمة الله 🌙</h2>
+      <p>اجعل لك ورداً يومياً، واجعل القرآن رفيق أيامك.</p>
+    </section>
+
+    <section class="stats">
+      <div class="card">
+        <div>🔥 سلسلة القراءة</div>
+        <div class="number" id="streak">0</div>
+        <div>أيام متتالية</div>
+      </div>
+      <div class="card">
+        <div>📖 الصفحات المقروءة</div>
+        <div class="number" id="pages">0</div>
+        <div>صفحة</div>
+      </div>
+    </section>
+
+    <section class="menu">
+      <button onclick="alert('سيتم تجهيز القرآن الكريم كاملاً من مصدر موثوق في المرحلة القادمة.')">
+        📖 القرآن الكريم
+      </button>
+      <button onclick="alert('سيتم تجهيز الأذكار والأدعية الموثوقة.')">
+        🤲 الأذكار والأدعية
+      </button>
+      <button onclick="alert('سيتم تجهيز صفحة رحلتك مع القرآن.')">
+        🌙 رحلتي مع القرآن
+      </button>
+      <button onclick="alert('سيتم تجهيز إعدادات التذكير والإشعارات.')">
+        🔔 الإشعارات
+      </button>
+    </section>
+
+    <p class="note">
+      كل خطوة صغيرة في رحلتك مع القرآن تستحق الاستمرار.
+    </p>
+  </main>
+
+  <footer>رفيق القرآن © 2026</footer>
+</body>
+</html>
