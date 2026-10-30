@@ -1,779 +1,439 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#102b22">
 <title>رفيق القرآن</title>
-
 <style>
+:root{--bg:#0b1914;--panel:#102b22;--panel2:#172c23;--panel3:#1c382b;--gold:#d8bb76;--gold2:#b99a55;--txt:#f4f0e5;--muted:#b8c3b8;--line:#31503e}
 *{box-sizing:border-box}
-body{
- margin:0;font-family:Tahoma,Arial,sans-serif;
- background:#0b1914;color:#f5f1e7
-}
-header{
- padding:22px 18px;background:#102b22;
- border-bottom:1px solid #b99a55;text-align:center
-}
-header h1{color:#d8bb76;margin:5px;font-size:29px}
-header p{color:#c7c5b8;margin:8px}
-main{width:min(100% - 28px,700px);margin:20px auto 95px}
-.welcome{text-align:center;padding:18px 5px}
-h2,h3{color:#d8bb76}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
-.card,.panel{
- background:#172c23;border:1px solid #34513e;
- border-radius:16px;padding:17px
-}
-.card{text-align:center}
-.number{color:#e3c77e;font-size:27px;font-weight:bold}
-.menu{display:grid;gap:11px;margin-top:18px}
-button{font-family:inherit;cursor:pointer}
-.menu button,.action,.back{
- padding:14px;border-radius:12px;border:1px solid #8f7949;
- background:#1c382b;color:#f5f1e7;font-size:16px;text-align:right
-}
-.panel{margin:14px 0}
-.back{margin-bottom:10px;padding:9px 14px}
-.action{font-size:14px;text-align:center;padding:11px 14px}
-.action.gold{background:#d8bb76;color:#102b22;font-weight:bold}
-.action:disabled{opacity:.4;cursor:not-allowed}
-input,select,textarea{
- display:block;width:100%;padding:12px;margin:8px 0 13px;
- border-radius:10px;border:1px solid #8f7949;
- background:#0b1914;color:white;font-size:15px;font-family:inherit
-}
-label{color:#d8bb76;font-size:14px}
-.muted,.note{color:#c7c5b8;font-size:13px;line-height:1.9}
-.note{text-align:center;margin-top:22px}
-.page{display:none}
-.page.active{display:block}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:Tahoma,Arial,sans-serif;line-height:1.7}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:1px solid var(--gold2);background:var(--panel3);color:var(--txt);border-radius:12px;padding:10px 14px}
+button.primary{background:var(--gold);color:#17231b;font-weight:bold}
+button:disabled{opacity:.5;cursor:not-allowed}
+.wrap{max-width:850px;margin:auto;padding:16px}
+.top{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;text-align:center}
+.brand{color:var(--gold);font-size:28px;font-weight:bold}
+.sub,.muted{color:var(--muted)}
+.panel{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--panel3);padding:12px;border-radius:12px;text-align:center}
+.stat b{display:block;color:var(--gold);font-size:24px}
+.menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
+.menu button{min-height:62px}
+.hidden{display:none!important}
+input,select,textarea{width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:#0d2119;color:var(--txt);margin:5px 0 12px}
+label{display:block;color:var(--gold);margin-top:8px}
 .row{display:flex;gap:8px;flex-wrap:wrap}
-.row>*{flex:1;min-width:120px}
-.quran-text{
- font-size:24px;line-height:2.25;text-align:justify;
- color:#f5e8c7;padding:10px 0
-}
-.ayah-number{color:#d8bb76;font-size:14px;white-space:nowrap}
-.list-item{padding:13px 4px;border-bottom:1px solid #34513e}
-.progress{height:9px;background:#34513e;border-radius:10px;overflow:hidden}
-.progress span{display:block;height:100%;background:#d8bb76;width:0}
-nav{
- position:fixed;bottom:0;left:0;right:0;background:#102b22;
- border-top:1px solid #b99a55;display:flex;
- justify-content:space-around;padding:8px 3px;z-index:5
-}
-nav button{background:transparent;color:#d8bb76;border:0;padding:8px 5px;font-size:11px}
-nav button.active{color:white}
-footer{text-align:center;color:#b99a55;padding:20px}
-.small{font-size:12px;color:#c7c5b8}
-.checkrow{display:flex;align-items:center;gap:9px;margin:10px 0;color:#f5f1e7}
-.checkrow input{width:auto;margin:0}
-.counter{font-size:54px;text-align:center;color:#e3c77e;font-weight:bold;padding:18px}
+.row>*{flex:1}
+.ayah{font-size:23px;line-height:2.2;text-align:justify;background:#0d2119;padding:16px;border-radius:12px;margin:10px 0}
+.gold{color:var(--gold)}
+.listitem{padding:12px;border-bottom:1px solid var(--line)}
+.notice{padding:10px;border-radius:10px;background:#392f19;color:#f5df9c;margin:10px 0}
+footer{text-align:center;color:var(--muted);padding:20px;font-size:13px}
+a{color:var(--gold)}
+@media(max-width:440px){.brand{font-size:24px}.wrap{padding:10px}}
 </style>
 </head>
-
 <body>
-
-<header>
- <h1>☪ رفيق القرآن</h1>
- <p>رحلتك اليومية مع القرآن الكريم</p>
+<main class="wrap">
+<header class="top">
+<div class="brand">☪ رفيق القرآن</div>
+<div class="sub">رحلتك اليومية مع القرآن الكريم</div>
 </header>
 
-<main>
-
-<!-- الصفحة الرئيسية -->
-<section id="home" class="page active">
- <div class="welcome">
-  <h2>السلام عليكم ورحمة الله 🌙</h2>
-  <p>اقرأ على راحتك، واجعل القرآن رفيق أيامك.</p>
- </div>
-
- <section class="stats">
-  <div class="card">
-   <div>🔥 سلسلة القراءة</div>
-   <div class="number" id="streak">0</div>
-   <div>أيام متتالية</div>
-  </div>
-  <div class="card">
-   <div>📖 الصفحات المسجلة</div>
-   <div class="number" id="pages">0</div>
-   <div>صفحة</div>
-  </div>
- </section>
-
- <section class="menu">
-  <button onclick="openPage('quran')">📖 القرآن الكريم</button>
-  <button onclick="openPage('duas')">🤲 الأذكار والأدعية</button>
-  <button onclick="openPage('tasbih')">📿 التسبيح</button>
-  <button onclick="openPage('journey')">🌙 رحلتي مع القرآن</button>
-  <button onclick="openPage('settings')">🔔 الإشعارات والإعدادات</button>
- </section>
-
- <p class="note">لا ضغط ولا سباق؛ اقرأ بالقدر الذي تستطيع، وداوم على الخير.</p>
+<section id="auth" class="panel">
+<h2 class="gold">مرحبا بيك</h2>
+<p class="muted">أنشئ حسابك أو ادخل لحسابك لمزامنة تقدمك.</p>
+<label>البريد الإلكتروني</label>
+<input id="email" type="email" autocomplete="email" placeholder="name@example.com">
+<label>كلمة السر</label>
+<input id="password" type="password" autocomplete="current-password" placeholder="8 أحرف على الأقل">
+<div class="row">
+<button class="primary" onclick="signup()">إنشاء حساب</button>
+<button onclick="login()">تسجيل الدخول</button>
+</div>
+<button onclick="resetPassword()">نسيت كلمة السر؟</button>
+<p id="authMsg" class="muted"></p>
 </section>
 
-<!-- القرآن الكريم -->
-<section id="quran" class="page">
- <button class="back" onclick="openPage('home')">← الرجوع</button>
+<section id="app" class="hidden">
+<div class="panel">
+<div class="row" style="align-items:center">
+<div style="flex:2">
+<h2 class="gold">السلام عليكم 🌙</h2>
+<span id="welcome" class="muted"></span>
+</div>
+<button onclick="logout()">خروج</button>
+</div>
+<div class="grid">
+<div class="stat"><b id="streak">0</b>أيام متتالية</div>
+<div class="stat"><b id="pages">0</b>صفحة مسجلة</div>
+</div>
+</div>
 
- <div class="panel">
-  <h2>📖 القرآن الكريم</h2>
-  <p class="muted">اختر السورة بحرية، أو واصل من آخر موضع حفظته.</p>
-
-  <button class="action gold" onclick="continueReading()">
-   واصل من أين توقفت
-  </button>
-
-  <label>السورة</label>
-  <select id="surahSelect">
-   <option value="">جارٍ تحميل السور...</option>
-  </select>
-
-  <div class="row">
-   <button class="action" onclick="changeSurah(-1)">السورة السابقة</button>
-   <button class="action" onclick="changeSurah(1)">السورة التالية</button>
-  </div>
-
-  <p id="surahInfo" class="muted"></p>
-  <div id="quranText" class="quran-text">جارٍ تحميل القرآن الكريم...</div>
-
-  <hr style="border-color:#34513e">
-
-  <h3>موضع القراءة</h3>
-  <p class="muted">
-   اكتب رقم الصفحة التي وصلت إليها بعد القراءة.
-   تسجيل صفحة واحدة في اليوم يكفي للمحافظة على السلسلة.
-  </p>
-
-  <label>رقم الصفحة (1 إلى 604)</label>
-  <input id="pageNumber" type="number" min="1" max="604" value="1">
-
-  <div class="row">
-   <button class="action gold" onclick="recordReading()">حفظ موضعي وتسجيل القراءة ✓</button>
-   <button class="action" onclick="savePositionOnly()">حفظ الموضع فقط</button>
-  </div>
-
-  <p id="readingMessage" class="muted"></p>
-
-  <p class="small">
-   النص يُحمّل من AlQuran Cloud برسم عثماني.
-   يلزم الاتصال بالإنترنت ومراجعة النص مع مصحف معتمد قبل النشر الرسمي.
-  </p>
- </div>
-</section>
-
-<!-- الأدعية -->
-<section id="duas" class="page">
- <button class="back" onclick="openPage('home')">← الرجوع</button>
-
- <div class="panel">
-  <h2>🤲 الأذكار والأدعية</h2>
-
-  <label>التصنيف</label>
-  <select id="duaCategory" onchange="renderDuas()">
-   <option value="all">كل الأدعية</option>
-   <option value="study">الدراسة والعلم</option>
-   <option value="success">التوفيق والنجاح</option>
-   <option value="morning">أذكار الصباح</option>
-   <option value="evening">أذكار المساء</option>
-   <option value="sleep">النوم والاستيقاظ</option>
-   <option value="quran">أدعية من القرآن</option>
-   <option value="general">أدعية عامة</option>
-  </select>
-
-  <div id="duaList"></div>
-
-  <p class="muted">
-   نميّز بين الآيات والأحاديث والأدعية العامة،
-   ولا ننسب دعاءً إلى النبي ﷺ دون التثبت من مصدره.
-  </p>
- </div>
-</section>
-
-<!-- التسبيح -->
-<section id="tasbih" class="page">
- <button class="back" onclick="openPage('home')">← الرجوع</button>
-
- <div class="panel">
-  <h2>📿 تسبيحك الخاص</h2>
-  <p class="muted">اكتب الذكر الذي تريد، والعدّاد يحفظ تقدمك على هذا الجهاز.</p>
-
-  <label>الذكر</label>
-  <input id="tasbihText" placeholder="مثلاً: أستغفر الله">
-
-  <label>هدف اختياري</label>
-  <input id="tasbihTarget" type="number" min="1" placeholder="مثلاً 100">
-
-  <div class="counter" id="tasbihCount">0</div>
-  <p class="muted" id="tasbihLabel" style="text-align:center">
-   اكتب ذكرك ثم اضغط تسبيح
-  </p>
-
-  <div class="row">
-   <button class="action gold" onclick="incrementTasbih()">سبّح +1</button>
-   <button class="action" onclick="resetTasbih()">تصفير العدّاد</button>
-  </div>
-
-  <button class="action" style="width:100%;margin-top:10px" onclick="saveTasbih()">
-   حفظ الذكر والعدد
-  </button>
- </div>
-</section>
-
-<!-- رحلتي -->
-<section id="journey" class="page">
- <button class="back" onclick="openPage('home')">← الرجوع</button>
-
- <div class="panel">
-  <h2>🌙 رحلتي مع القرآن</h2>
-
-  <div class="stats">
-   <div class="card">
-    <div>🔥 السلسلة الحالية</div>
-    <div class="number" id="journeyStreak">0</div>
-   </div>
-   <div class="card">
-    <div>📖 الصفحات</div>
-    <div class="number" id="journeyPages">0</div>
-   </div>
-  </div>
-
-  <h3>أيام قرأت فيها</h3>
-  <p id="readingDays" class="muted">لم تسجل أي قراءة بعد.</p>
-
-  <h3>فرصة استرجاع السلسلة</h3>
-  <p id="recoveryText" class="muted"></p>
-
-  <button id="recoveryButton" class="action gold" onclick="recoverStreak()">
-   استرجاع السلسلة
-  </button>
-
-  <p class="muted">
-   تُحتسب السلسلة عند تسجيل صفحة واحدة على الأقل في اليوم.
-   القراءة أكثر من صفحة تزيد مجموع الصفحات ولا تزيد أيام السلسلة في اليوم نفسه.
-  </p>
- </div>
-</section>
-
-<!-- الإعدادات -->
-<section id="settings" class="page">
- <button class="back" onclick="openPage('home')">← الرجوع</button>
-
- <div class="panel">
-  <h2>🔔 تذكير القراءة</h2>
-
-  <label>وقت التذكير المفضل</label>
-  <input type="time" id="reminderTime" value="20:00">
-
-  <button class="action gold" onclick="saveReminder()">حفظ وقت التذكير</button>
-  <button class="action" onclick="enableNotifications()">السماح بالإشعارات</button>
-
-  <p id="notificationStatus" class="muted">
-   إذن الإشعارات وحده لا يبرمج إرسالاً تلقائياً عند إغلاق التطبيق.
-   يلزم لاحقاً إعداد خدمة Push.
-  </p>
- </div>
-
- <div class="panel">
-  <h2>🕌 مواقيت الصلاة</h2>
-
-  <label>المدينة</label>
-  <input id="prayerCity" value="صفاقس" placeholder="اسم المدينة">
-
-  <p class="muted">
-   اختار الصلوات التي تريد تذكيراً بها.
-   مواقيت الصلاة الدقيقة تحتاج مصدر مواقيت موثوق وخدمة إشعارات تعمل في الخلفية.
-  </p>
-
-  <div id="prayerChecks">
-   <label class="checkrow"><input type="checkbox" value="fajr" checked> الفجر</label>
-   <label class="checkrow"><input type="checkbox" value="dhuhr" checked> الظهر</label>
-   <label class="checkrow"><input type="checkbox" value="asr" checked> العصر</label>
-   <label class="checkrow"><input type="checkbox" value="maghrib" checked> المغرب</label>
-   <label class="checkrow"><input type="checkbox" value="isha" checked> العشاء</label>
-  </div>
-
-  <button class="action gold" onclick="savePrayerPrefs()">حفظ اختيارات الصلاة</button>
-  <p id="prayerStatus" class="muted"></p>
- </div>
-
- <div class="panel">
-  <h2>💾 بياناتك</h2>
-  <p class="muted">
-   هذه المرحلة تحفظ بياناتك على هذا الجهاز والمتصفح فقط.
-   الحسابات والمزامنة بين الأجهزة ستكون في مرحلة ربط قاعدة البيانات الآمنة.
-  </p>
-
-  <button class="action" onclick="exportProgress()">تصدير نسخة من تقدمي</button>
-  <button class="action" onclick="resetProgress()">مسح التقدم</button>
- </div>
-</section>
-
-</main>
-
-<nav>
- <button class="active" onclick="openPage('home',this)">🏠 الرئيسية</button>
- <button onclick="openPage('quran',this)">📖 القرآن</button>
- <button onclick="openPage('duas',this)">🤲 الأدعية</button>
- <button onclick="openPage('tasbih',this)">📿 التسبيح</button>
- <button onclick="openPage('journey',this)">🌙 رحلتي</button>
+<nav class="menu">
+<button onclick="show('quran')">📖 القرآن الكريم</button>
+<button onclick="show('duas')">🤲 الأدعية والأذكار</button>
+<button onclick="show('tasbih')">📿 المسبحة</button>
+<button onclick="show('journey')">🌿 رحلتي</button>
+<button onclick="show('settings')">⚙️ الإعدادات</button>
 </nav>
 
-<footer>رفيق القرآن © 2026</footer>
+<section id="quran" class="panel">
+<h2 class="gold">القرآن الكريم</h2>
+<p class="muted">اختار السورة اللي تحب تقرا منها. آخر موضع تحفظه تلقائياً.</p>
+<label>السورة</label>
+<select id="surah"></select>
+<div class="row">
+<button class="primary" onclick="loadSurah()">افتح السورة</button>
+<button onclick="resume()">كمّل من آخر موضع</button>
+</div>
+<div id="quranInfo" class="muted"></div>
+<div id="quranText"></div>
+<label>رقم الصفحة في المصحف (اختياري)</label>
+<input id="pageNum" type="number" min="1" max="604" placeholder="مثال: 1">
+<div class="row">
+<button class="primary" onclick="recordPage()">سجّل صفحة اليوم</button>
+<button onclick="savePosition()">احفظ موضعي</button>
+</div>
+<p id="quranMsg" class="muted"></p>
+<div class="notice">النص يُجلب من AlQuran Cloud عبر الإنترنت. العرض هنا حسب السورة، وليس تخطيط صفحات المصحف الورقي.</div>
+</section>
 
+<section id="duas" class="panel hidden">
+<h2 class="gold">الأدعية والأذكار</h2>
+<label>اختار القسم</label>
+<select id="duaCat" onchange="renderDuas()">
+<option value="all">الكل</option>
+<option value="morning">أذكار الصباح</option>
+<option value="evening">أذكار المساء</option>
+<option value="study">الدراسة والامتحان</option>
+<option value="sleep">النوم</option>
+<option value="relief">الفرج والتيسير</option>
+<option value="repent">الاستغفار</option>
+</select>
+<div id="duaList"></div>
+<p class="muted">الأدعية العامة معروضة دون نسبتها إلى حديث أو مصدر محدد. تحقّق من التخريج قبل نشر أي نسبة دينية.</p>
+</section>
+
+<section id="tasbih" class="panel hidden">
+<h2 class="gold">المسبحة الإلكترونية</h2>
+<label>الذكر اللي تختارو</label>
+<input id="dhikr" placeholder="مثال: سبحان الله">
+<label>الهدف (اختياري)</label>
+<input id="target" type="number" min="1" placeholder="مثال: 100">
+<div class="stat">
+<b id="count">0</b>
+<span id="dhikrShow">الذكر</span>
+</div>
+<div class="row">
+<button class="primary" onclick="inc()">سبّح +1</button>
+<button onclick="resetCount()">تصفير</button>
+</div>
+<p class="muted" id="tasbihMsg"></p>
+</section>
+
+<section id="journey" class="panel hidden">
+<h2 class="gold">رحلتي مع القرآن</h2>
+<p>أيام المواظبة: <b id="journeyStreak" class="gold">0</b></p>
+<p>الصفحات المسجلة: <b id="journeyPages" class="gold">0</b></p>
+<p id="lastRead" class="muted">لم تسجل قراءة بعد.</p>
+<div id="recoveryBox"></div>
+<p class="muted">صفحة واحدة في اليوم تكفي للمحافظة على السلسلة. تنجم تقرا من أي سورة وفي أي وقت.</p>
+</section>
+
+<section id="settings" class="panel hidden">
+<h2 class="gold">الإعدادات</h2>
+<label>تذكير القراءة اليومي</label>
+<input id="reminder" type="time" value="20:00">
+<label>المدينة</label>
+<input id="city" value="Sfax, Tunisia">
+<label>تنبيهات الصلاة (اختياراتك فقط)</label>
+<div id="prayers"></div>
+<button class="primary" onclick="saveSettings()">حفظ الإعدادات</button>
+<button onclick="testNotification()">جرّب إشعاراً</button>
+<p class="muted">التذكير المحفوظ لا يضمن إشعاراً في الخلفية. إشعارات مجدولة ومواقيت صلاة دقيقة تتطلب خدمة إضافية.</p>
+<button onclick="downloadData()">تصدير بياناتي</button>
+</section>
+</section>
+
+<footer>رفيق القرآن · اللهم اجعل القرآن ربيع قلوبنا</footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-"use strict";
+const SUPABASE_URL='https://bluamfnskanpsljhixjmk.supabase.co';
+const SUPABASE_KEY='sb_publishable_4E5JGc6rns-S_ZJBwerXoQ_M4zZjyB4';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const STORAGE_KEY="rafiq_quran_progress_v2";
+const defaults={
+last_surah:1,last_page:1,streak:0,total_pages:0,
+last_read_date:null,recovery_month:null,reading_dates:[],
+page_log:[],pending_recovery:false,streak_before_gap:0,
+reminder_time:'20:00',prayer_city:'Sfax, Tunisia',
+prayer_selections:[],tasbih_text:'سبحان الله',
+tasbih_count:0,tasbih_target:''
+};
 
-function emptyData(){
- return {
-  streak:0,
-  pages:0,
-  lastReadDate:null,
-  readingDates:[],
-  pageLog:[],
-  lastPage:1,
-  lastSurah:1,
-  recoveryMonth:null,
-  pendingRecovery:false,
-  streakBeforeGap:0,
-  reminderTime:"20:00",
-  prayerCity:"صفاقس",
-  prayerSelections:["fajr","dhuhr","asr","maghrib","isha"],
-  tasbihText:"",
-  tasbihCount:0,
-  tasbihTarget:""
- };
+let data={...defaults},user=null,currentSurah=null;
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toLocaleDateString('en-CA');
+const month=()=>today().slice(0,7);
+function msg(id,s){$(id).textContent=s}
+
+async function signup(){
+let email=$('email').value.trim(),password=$('password').value;
+if(password.length<8)return msg('authMsg','كلمة السر لازمها 8 أحرف على الأقل.');
+let{error}=await sb.auth.signUp({email,password});
+msg('authMsg',error?error.message:'تم إنشاء الحساب. إذا طلب منك تأكيد البريد، افتح رسالة Supabase ثم ارجع سجّل الدخول.');
 }
 
-let data;
-
-try{
- data={...emptyData(),...JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")};
-}catch(e){
- data=emptyData();
+async function login(){
+let{data:d,error}=await sb.auth.signInWithPassword({
+email:$('email').value.trim(),password:$('password').value
+});
+if(error)return msg('authMsg',error.message);
+user=d.user;
+await startApp();
 }
 
-function todayKey(){
- const d=new Date();
- return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+async function resetPassword(){
+let{error}=await sb.auth.resetPasswordForEmail($('email').value.trim(),{redirectTo:location.href});
+msg('authMsg',error?error.message:'إذا البريد مسجل، توصلك رسالة استرجاع كلمة السر.');
 }
 
-function previousDate(k){
- const d=new Date(k+"T12:00:00");
- d.setDate(d.getDate()-1);
- return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+async function logout(){
+await sb.auth.signOut();
+user=null;
+$('app').classList.add('hidden');
+$('auth').classList.remove('hidden');
 }
 
-function currentMonth(){
- return todayKey().slice(0,7);
+async function startApp(){
+$('auth').classList.add('hidden');
+$('app').classList.remove('hidden');
+$('welcome').textContent=user.email||'';
+let{data:r,error}=await sb.from('user_progress').select('*').eq('user_id',user.id).maybeSingle();
+if(error){
+alert('مشكلة في جدول التقدم: '+error.message+'\nتأكد أنك نفذت ملف supabase.sql في Supabase.');
+data={...defaults};
+}else data={...defaults,...(r||{})};
+
+renderStats();
+initSurahs();
+$('dhikr').value=data.tasbih_text;
+$('target').value=data.tasbih_target||'';
+$('count').textContent=data.tasbih_count;
+$('dhikrShow').textContent=data.tasbih_text;
+$('reminder').value=data.reminder_time;
+$('city').value=data.prayer_city;
+buildPrayerChecks();
+renderDuas();
 }
 
-function saveData(){
- localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
- render();
+async function save(){
+if(!user)return;
+let payload={...data,user_id:user.id,updated_at:new Date().toISOString()};
+let{error}=await sb.from('user_progress').upsert(payload,{onConflict:'user_id'});
+if(error)alert('ما نجّمش نحفظ التغييرات: '+error.message);
 }
 
-function render(){
- ["streak","journeyStreak"].forEach(id=>{
-  document.getElementById(id).textContent=data.streak;
- });
-
- ["pages","journeyPages"].forEach(id=>{
-  document.getElementById(id).textContent=data.pages;
- });
-
- document.getElementById("readingDays").textContent=
-  data.readingDates.length
-  ?data.readingDates.slice().reverse().join(" • ")
-  :"لم تسجل أي قراءة بعد.";
-
- const available=data.pendingRecovery && data.recoveryMonth!==currentMonth();
-
- document.getElementById("recoveryButton").disabled=!available;
-
- document.getElementById("recoveryText").textContent=
-  available
-  ?"فاتك يوم واحد. يمكنك اختيار استعمال فرصة الاسترجاع الشهرية."
-  :"لا توجد فرصة استرجاع متاحة حالياً، أو استُعملت فرصة هذا الشهر.";
-
- document.getElementById("reminderTime").value=data.reminderTime||"20:00";
- document.getElementById("prayerCity").value=data.prayerCity||"صفاقس";
- document.getElementById("tasbihText").value=data.tasbihText||"";
- document.getElementById("tasbihTarget").value=data.tasbihTarget||"";
- document.getElementById("tasbihCount").textContent=data.tasbihCount||0;
- document.getElementById("tasbihLabel").textContent=data.tasbihText||"اكتب ذكرك ثم اضغط تسبيح";
-
- document.querySelectorAll('#prayerChecks input').forEach(c=>{
-  c.checked=data.prayerSelections.includes(c.value);
- });
+function renderStats(){
+$('streak').textContent=data.streak;
+$('pages').textContent=data.total_pages;
+$('journeyStreak').textContent=data.streak;
+$('journeyPages').textContent=data.total_pages;
+$('lastRead').textContent=data.last_read_date?'آخر قراءة مسجلة: '+data.last_read_date:'لم تسجل قراءة بعد.';
 }
 
-function openPage(id,button){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById(id).classList.add("active");
-
- document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-
- if(button)button.classList.add("active");
-
- if(id==="quran"&&!surahsLoaded)loadSurahs();
- if(id==="journey")render();
-}
-
-function savePositionOnly(){
- const p=Number(document.getElementById("pageNumber").value);
-
- if(!Number.isInteger(p)||p<1||p>604){
-  alert("أدخل رقم صفحة بين 1 و604.");
-  return;
- }
-
- data.lastPage=p;
- data.lastSurah=Number(document.getElementById("surahSelect").value)||data.lastSurah;
-
- saveData();
-
- document.getElementById("readingMessage").textContent=
-  "تم حفظ موضعك. لم تُسجّل قراءة اليوم.";
-}
-
-function continueReading(){
- openPage("quran",document.querySelector('nav button:nth-child(2)'));
-
- document.getElementById("pageNumber").value=data.lastPage;
-
- if(surahsLoaded){
-  document.getElementById("surahSelect").value=String(data.lastSurah);
-  loadSurah();
- }else{
-  loadSurahs().then(()=>{
-   document.getElementById("surahSelect").value=String(data.lastSurah);
-   loadSurah();
-  });
- }
-}
-
-function recordReading(){
- const p=Number(document.getElementById("pageNumber").value);
- const today=todayKey();
-
- if(!Number.isInteger(p)||p<1||p>604){
-  alert("يرجى إدخال رقم صفحة صحيح بين 1 و604.");
-  return;
- }
-
- if(data.pageLog.some(x=>x.date===today&&x.page===p)){
-  alert("هذه الصفحة مسجلة اليوم من قبل.");
-  data.lastPage=p;
-  saveData();
-  return;
- }
-
- if(data.lastReadDate!==today){
-  if(data.lastReadDate===previousDate(today)){
-   data.streak=Math.max(1,data.streak+1);
-  }else if(data.lastReadDate===null){
-   data.streak=1;
-  }else{
-   data.streak=1;
-  }
-
-  data.lastReadDate=today;
-
-  if(!data.readingDates.includes(today)){
-   data.readingDates.push(today);
-  }
-
-  data.pendingRecovery=false;
- }
-
- data.pageLog.push({date:today,page:p});
- data.pages++;
- data.lastPage=p;
- data.lastSurah=Number(document.getElementById("surahSelect").value)||data.lastSurah;
-
- saveData();
-
- document.getElementById("readingMessage").textContent=
-  "بارك الله فيك! تم تسجيل الصفحة "+p+" وحفظ موضعك.";
-}
-
-function checkMissedDay(){
- if(!data.lastReadDate)return;
-
- const today=todayKey();
- const y=previousDate(today);
- const two=previousDate(y);
-
- if(data.lastReadDate===two&&!data.pendingRecovery){
-  data.pendingRecovery=true;
-  data.streakBeforeGap=data.streak;
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
- }
-}
-
-function recoverStreak(){
- if(!data.pendingRecovery||data.recoveryMonth===currentMonth()){
-  alert("لا توجد فرصة استرجاع متاحة.");
-  return;
- }
-
- if(!confirm("هل تريد استعمال فرصة الاسترجاع الشهرية؟"))return;
-
- data.streak=data.streakBeforeGap;
- data.recoveryMonth=currentMonth();
- data.lastReadDate=previousDate(todayKey());
- data.pendingRecovery=false;
-
- saveData();
-
- alert("تم استرجاع السلسلة. سجّل قراءة اليوم للمحافظة عليها.");
-}
-
-/* تحميل القرآن */
-let surahsLoaded=false;
-
-async function loadSurahs(){
- const s=document.getElementById("surahSelect");
-
- try{
-  const r=await fetch("https://api.alquran.cloud/v1/surah");
-
-  if(!r.ok)throw Error();
-
-  const j=await r.json();
-
-  if(j.code!==200)throw Error();
-
-  s.innerHTML="";
-
-  j.data.forEach(x=>{
-   const o=document.createElement("option");
-   o.value=x.number;
-   o.textContent=x.number+" - "+x.name;
-   s.appendChild(o);
-  });
-
-  surahsLoaded=true;
-  s.value=String(data.lastSurah||1);
-
-  s.addEventListener("change",()=>{
-   data.lastSurah=Number(s.value);
-   saveData();
-   loadSurah();
-  });
-
-  await loadSurah();
-
- }catch(e){
-  s.innerHTML='<option value="">تعذر تحميل السور</option>';
-  document.getElementById("quranText").textContent=
-   "تعذر الاتصال بمصدر القرآن. تحقق من الإنترنت وحاول مجدداً.";
- }
+async function initSurahs(){
+let{data:r,error}=await fetch('https://api.alquran.cloud/v1/surah')
+.then(x=>x.json()).then(x=>({data:x.data})).catch(e=>({error:e}));
+if(error)return msg('quranInfo','تعذر تحميل قائمة السور. تحقق من الإنترنت.');
+$('surah').innerHTML=r.map(s=>`<option value="${s.number}">${s.number}. ${s.name} — ${s.englishName}</option>`).join('');
+$('surah').value=data.last_surah;
 }
 
 async function loadSurah(){
- const n=Number(document.getElementById("surahSelect").value);
-
- if(!n)return;
-
- const box=document.getElementById("quranText");
- box.textContent="جارٍ تحميل السورة...";
-
- try{
-  const r=await fetch("https://api.alquran.cloud/v1/surah/"+n+"/quran-uthmani");
-
-  if(!r.ok)throw Error();
-
-  const j=await r.json();
-
-  if(j.code!==200)throw Error();
-
-  document.getElementById("surahInfo").textContent=
-   j.data.name+" • "+j.data.numberOfAyahs+" آية";
-
-  box.innerHTML="";
-
-  j.data.ayahs.forEach(a=>{
-   const t=document.createElement("span");
-   t.textContent=a.text+" ";
-
-   const no=document.createElement("span");
-   no.className="ayah-number";
-   no.textContent="﴿"+a.numberInSurah+"﴾ ";
-
-   box.append(t,no);
-  });
-
- }catch(e){
-  box.textContent="تعذر تحميل السورة. حاول مرة أخرى.";
- }
+let n=+$('surah').value;
+msg('quranInfo','جاري تحميل السورة...');
+let res=await fetch(`https://api.alquran.cloud/v1/surah/${n}/quran-uthmani`)
+.then(r=>r.json()).catch(e=>null);
+if(!res||res.code!==200)return msg('quranInfo','تعذر تحميل القرآن. تحقق من الإنترنت.');
+currentSurah=res.data;
+data.last_surah=n;
+renderAyahs();
+await savePosition(false);
 }
 
-function changeSurah(d){
- const s=document.getElementById("surahSelect");
- const n=Number(s.value)+d;
-
- if(n>=1&&n<=114){
-  s.value=String(n);
-  data.lastSurah=n;
-  saveData();
-  loadSurah();
- }
+function renderAyahs(){
+$('quranInfo').textContent=currentSurah.name+' · '+currentSurah.numberOfAyahs+' آية';
+$('quranText').innerHTML=currentSurah.ayahs.map(a=>
+`<span class="ayah" id="a${a.numberInSurah}">${a.text} <small class="gold">۞ ${a.numberInSurah}</small></span>`
+).join('');
 }
 
-/* الأدعية */
+async function savePosition(showMsg=true){
+data.last_surah=+$('surah').value;
+let p=+$('pageNum').value;
+if(p>=1&&p<=604)data.last_page=p;
+await save();
+if(showMsg)msg('quranMsg','تم حفظ آخر موضع.');
+}
+
+async function resume(){
+$('surah').value=data.last_surah;
+$('pageNum').value=data.last_page;
+await loadSurah();
+}
+
+async function recordPage(){
+let p=+$('pageNum').value;
+if(!p||p<1||p>604)return msg('quranMsg','اكتب رقم صفحة صحيح بين 1 و604.');
+let t=today(),last=data.last_read_date;
+
+if(last!==t){
+let diff=last?Math.round((new Date(t)-new Date(last))/86400000):999;
+if(diff===1){
+data.streak=(data.streak||0)+1;
+data.pending_recovery=false;
+}else if(diff===2){
+data.pending_recovery=true;
+data.streak_before_gap=data.streak||0;
+}else if(diff>2){
+data.streak=1;
+data.pending_recovery=false;
+}else if(!last)data.streak=1;
+data.last_read_date=t;
+}
+
+data.total_pages=(data.total_pages||0)+1;
+data.page_log=[...(data.page_log||[]),{date:t,page:p,surah:+$('surah').value}];
+data.reading_dates=[...new Set([...(data.reading_dates||[]),t])];
+data.last_page=p;
+data.last_surah=+$('surah').value;
+await save();
+renderStats();
+msg('quranMsg','يعطيك الصحة! تسجلت قراءة الصفحة '+p+' لليوم.');
+renderRecovery();
+}
+
+function renderRecovery(){
+let box=$('recoveryBox');
+box.innerHTML='';
+if(data.pending_recovery){
+let b=document.createElement('button');
+b.className='primary';
+b.textContent='استرجاع السلسلة (مرة واحدة في الشهر)';
+b.onclick=recover;
+box.appendChild(b);
+}
+}
+
+async function recover(){
+if(data.recovery_month===month())return alert('استعملت فرصة الاسترجاع هذا الشهر.');
+data.streak=data.streak_before_gap+1;
+data.pending_recovery=false;
+data.recovery_month=month();
+await save();
+renderStats();
+renderRecovery();
+alert('تم استرجاع السلسلة.');
+}
+
 const duas=[
- {c:"study",t:"رَبِّ زِدْنِي عِلْمًا",s:"القرآن الكريم، سورة طه: 114"},
- {c:"study",t:"رَبَّنَا وَاجْعَلْنَا مُسْلِمَيْنِ لَكَ وَمِن ذُرِّيَّتِنَا أُمَّةً مُّسْلِمَةً لَّكَ",s:"القرآن الكريم، سورة البقرة: 128"},
- {c:"success",t:"رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي",s:"القرآن الكريم، سورة طه: 25-26"},
- {c:"success",t:"حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",s:"القرآن الكريم، سورة آل عمران: 173"},
- {c:"morning",t:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ",s:"صيغة مختصرة من ذكر الصباح؛ يُستكمل النص من مصدر موثوق"},
- {c:"evening",t:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ",s:"صيغة مختصرة من ذكر المساء؛ يُستكمل النص من مصدر موثوق"},
- {c:"sleep",t:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",s:"صحيح البخاري"},
- {c:"sleep",t:"الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",s:"صحيح البخاري"},
- {c:"quran",t:"رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",s:"القرآن الكريم، سورة البقرة: 201"},
- {c:"quran",t:"رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",s:"القرآن الكريم، سورة الأعراف: 23"},
- {c:"quran",t:"رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",s:"القرآن الكريم، سورة القصص: 24"},
- {c:"general",t:"اللهم اغفر لي وارحمني واهدني وعافني وارزقني.",s:"دعاء عام، وليس نصاً ننسبه إلى حديث بعينه"}
+['morning','أصبحنا وأصبح الملك لله، والحمد لله.'],
+['evening','أمسينا وأمسى الملك لله، والحمد لله.'],
+['study','رَبِّ زِدْنِي عِلْمًا.'],
+['study','اللهم يسّر لي فهمي، وبارك لي في وقتي وجهدي.'],
+['relief','لا إله إلا أنت سبحانك إني كنت من الظالمين.'],
+['relief','حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم.'],
+['sleep','باسمك اللهم أموت وأحيا.'],
+['repent','أستغفر الله وأتوب إليه.']
 ];
 
 function renderDuas(){
- const c=document.getElementById("duaCategory").value;
- const l=document.getElementById("duaList");
-
- l.innerHTML="";
-
- duas.filter(x=>c==="all"||x.c===c).forEach(x=>{
-  const d=document.createElement("div");
-  d.className="list-item";
-
-  const t=document.createElement("p");
-  t.className="quran-text";
-  t.textContent=x.t;
-
-  const s=document.createElement("p");
-  s.className="muted";
-  s.textContent=x.s;
-
-  d.append(t,s);
-  l.append(d);
- });
+let c=$('duaCat').value;
+$('duaList').innerHTML=duas.filter(d=>c==='all'||d[0]===c)
+.map(d=>`<div class="listitem">${d[1]}</div>`).join('');
 }
 
-/* التسبيح */
-function incrementTasbih(){
- const t=document.getElementById("tasbihText").value.trim();
+$('dhikr').addEventListener('input',()=>{
+$('dhikrShow').textContent=$('dhikr').value||'الذكر';
+});
 
- if(!t){
-  alert("اكتب الذكر أولاً.");
-  return;
- }
-
- data.tasbihText=t;
- data.tasbihTarget=document.getElementById("tasbihTarget").value;
- data.tasbihCount=(Number(data.tasbihCount)||0)+1;
-
- saveData();
-
- const target=Number(data.tasbihTarget);
-
- if(target&&data.tasbihCount===target){
-  alert("أحسنت! وصلت إلى العدد الذي اخترته.");
- }
+async function inc(){
+data.tasbih_text=$('dhikr').value||'الذكر';
+data.tasbih_target=$('target').value;
+data.tasbih_count=(+data.tasbih_count||0)+1;
+$('count').textContent=data.tasbih_count;
+let target=+$('target').value;
+msg('tasbihMsg',target&&data.tasbih_count>=target?'وصلت للهدف، تقبل الله منك.':'');
+await save();
 }
 
-function resetTasbih(){
- if(!confirm("تصفير عدّاد هذا الذكر؟"))return;
- data.tasbihCount=0;
- saveData();
+async function resetCount(){
+data.tasbih_count=0;
+$('count').textContent='0';
+await save();
+msg('tasbihMsg','تم تصفير العداد.');
 }
 
-function saveTasbih(){
- data.tasbihText=document.getElementById("tasbihText").value.trim();
- data.tasbihTarget=document.getElementById("tasbihTarget").value;
- saveData();
- alert("تم حفظ الذكر والعدد.");
+function buildPrayerChecks(){
+let names=['الفجر','الظهر','العصر','المغرب','العشاء'];
+$('prayers').innerHTML=names.map(n=>
+`<label><input style="width:auto" type="checkbox" value="${n}" ${data.prayer_selections.includes(n)?'checked':''}> ${n}</label>`
+).join('');
 }
 
-/* الإشعارات */
-function saveReminder(){
- data.reminderTime=document.getElementById("reminderTime").value||"20:00";
- saveData();
- alert("تم حفظ وقت التذكير على هذا الجهاز. يلزم إعداد Push لإرسال تذكير تلقائي في الخلفية.");
+async function saveSettings(){
+data.reminder_time=$('reminder').value;
+data.prayer_city=$('city').value;
+data.prayer_selections=[...$('prayers').querySelectorAll('input:checked')].map(x=>x.value);
+await save();
+alert('تم حفظ اختياراتك.');
 }
 
-async function enableNotifications(){
- const s=document.getElementById("notificationStatus");
-
- if(!("Notification"in window)){
-  s.textContent="المتصفح لا يدعم إشعارات الويب.";
-  return;
- }
-
- try{
-  const p=await Notification.requestPermission();
-
-  if(p==="granted"){
-   s.textContent="تم السماح بالإشعارات. هذه رسالة اختبار فقط؛ التذكير المجدول عند إغلاق التطبيق يحتاج خدمة Push.";
-   new Notification("رفيق القرآن",{
-    body:"لا تنس وردك اليومي. اقرأ على راحتك."
-   });
-  }else{
-   s.textContent="لم يتم السماح بالإشعارات.";
-  }
-
- }catch(e){
-  s.textContent="تعذر تفعيل الإشعارات. افتح الموقع عبر HTTPS.";
- }
+async function testNotification(){
+if(!('Notification'in window))return alert('المتصفح لا يدعم الإشعارات.');
+let p=await Notification.requestPermission();
+if(p==='granted')new Notification('رفيق القرآن',{body:'حان وقت وردك اليومي 🌙'});
+else alert('الإشعارات غير مفعلة.');
 }
 
-function savePrayerPrefs(){
- data.prayerCity=document.getElementById("prayerCity").value.trim()||"صفاقس";
-
- data.prayerSelections=[
-  ...document.querySelectorAll("#prayerChecks input:checked")
- ].map(x=>x.value);
-
- saveData();
-
- document.getElementById("prayerStatus").textContent=
-  "تم حفظ المدينة واختياراتك على هذا الجهاز. لم تُفعّل بعد تنبيهات الصلاة التلقائية.";
+function downloadData(){
+let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+let a=document.createElement('a');
+a.href=URL.createObjectURL(blob);
+a.download='rafiq-al-quran-data.json';
+a.click();
+URL.revokeObjectURL(a.href);
 }
 
-/* حفظ واسترجاع البيانات */
-function exportProgress(){
- const b=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const u=URL.createObjectURL(b);
- const a=document.createElement("a");
-
- a.href=u;
- a.download="rafiq-quran-progress.json";
- a.click();
-
- URL.revokeObjectURL(u);
+function show(id){
+document.querySelectorAll('#app>section').forEach(x=>x.classList.add('hidden'));
+$(id).classList.remove('hidden');
+if(id==='journey')renderRecovery();
+window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function resetProgress(){
- if(!confirm("هل أنت متأكد أنك تريد مسح كل تقدمك؟"))return;
-
- data=emptyData();
-
- localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-
- render();
-
- alert("تم مسح التقدم على هذا الجهاز.");
+sb.auth.getSession().then(async({data:d})=>{
+if(d.session){
+user=d.session.user;
+await startApp();
 }
+});
 
-checkMissedDay();
-renderDuas();
-render();
-
+sb.auth.onAuthStateChange((event,session)=>{
+if(event==='SIGNED_OUT'){
+user=null;
+$('app').classList.add('hidden');
+$('auth').classList.remove('hidden');
+}
+});
 </script>
 </body>
 </html>
